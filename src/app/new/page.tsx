@@ -1,6 +1,6 @@
 "use client";
 
-import { Textarea, Fieldset, Button, ActionIcon, Group, Title } from "@mantine/core";
+import { Textarea, Fieldset, Button, ActionIcon, Group, Title, MultiSelect } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
 import { useState } from "react";
 import Markdown from "markdown-to-jsx";
@@ -13,6 +13,7 @@ export default function New() {
   const [preview, setPreview] = useState(false)
 
   const createPost = api.post.create.useMutation()
+  const tagList = api.tag.getAll.useQuery().data?.map((tag) => tag.name)
   
   return (
     <>
@@ -20,7 +21,7 @@ export default function New() {
         {!preview ? (
           <>
             <Textarea placeholder="Your Post Title" value={title} autosize minRows={1} mb={10} onChange={(e) => setTitle(e.currentTarget.value)}/>
-            <Textarea placeholder="Enter up to 5 tags..." value={tags} autosize minRows={1} mb={10} onChange={(e) => setTags(e.currentTarget.value)}/>
+            <MultiSelect placeholder="Enter up to 5 tags..." data={tagList} onChange={(e) => setTags(e.join(","))} value={tags ? tags.split(",") : []} searchable/>
             <Textarea placeholder="Write your post content here..." value={body} autosize minRows={4} mt={10} onChange={(e) => setBody(e.currentTarget.value)}/>
           </>
         ) : (
@@ -31,7 +32,7 @@ export default function New() {
         )}
 
         <Group py="md">
-          <Button onClick={() => createPost.mutate({ title, tags, body })}>Publish</Button>
+          <Button onClick={() => createPost.mutate({ title, tags, body }) }>Publish</Button>
           <Button variant="outline">Save Draft</Button>
 
           <ActionIcon variant="default" color="gray" aria-label="Settings" size="lg">
