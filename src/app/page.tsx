@@ -1,8 +1,7 @@
 "use client"
 
-import { Text, Title, Center, Code, Button } from "@mantine/core";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Shell from "./components/Shell/Shell";
+import { Text, Title, Center, Code } from "@mantine/core";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const session = useSession();
