@@ -29,6 +29,13 @@ model Post {
     @@index([title])
 }
 
+model Tag {
+    id          Int      @id @default(autoincrement())
+
+    name        String
+    popularity  Int
+}
+
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
