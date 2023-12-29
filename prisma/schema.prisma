@@ -23,8 +23,9 @@ model Post {
     createdById String
 
     title String
-    body String
+    slug String
     tags String
+    body String
 
     @@index([title])
 }
