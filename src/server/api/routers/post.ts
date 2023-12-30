@@ -29,5 +29,11 @@ export const postRouter = createTRPCRouter({
 
     getAll: protectedProcedure.query(async ({ ctx }) => {
       return ctx.db.post.findMany();
+    }),
+
+    getPostByURL: protectedProcedure.input(z.object({ slug: z.string().min(1) })).query(async ({ ctx, input  }) => {
+      return ctx.db.post.findUnique({
+        where: { slug: input.slug }
+      });
     })
 });
