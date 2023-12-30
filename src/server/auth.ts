@@ -4,6 +4,7 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
+
 import Google from "next-auth/providers/google";
 
 import { env } from "~/env";
@@ -19,6 +20,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      username: string
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -35,6 +37,7 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  */
+
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session: ({ session, user }) => ({
@@ -42,6 +45,7 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
+        username: (user as unknown as { username: string }).username,
       },
     }),
   },
