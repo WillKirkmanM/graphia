@@ -1,13 +1,18 @@
 "use client"
 
 import { ActionIcon, AppShell, Burger, Button, Group, TextInput, Text, Space } from '@mantine/core';
+import AvatarDropdown from '../User/AvatarDropdown';
 import Link from 'next/link';
 
-import { IconBell, IconSearch } from "@tabler/icons-react"
+import { IconBell, IconPlus, IconSearch } from "@tabler/icons-react"
 import { useDisclosure } from '@mantine/hooks';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
-export default function Shell({ children }) {
+interface ShellProps {
+  children: React.ReactNode;
+}
+
+export default function Shell({ children }: ShellProps) {
   const [opened, { toggle }] = useDisclosure();
   const session = useSession();
 
@@ -33,19 +38,19 @@ export default function Shell({ children }) {
           <Link href="/">
             <Text>Graphia</Text>
           </Link>
-          <TextInput placeholder="Search..." leftSection={<IconSearch />} />
+          <TextInput placeholder="Search..." radius="lg" leftSection={<IconSearch />} w={500}  />
         </Group>
 
         <Group justify="flex-end">
           {session.status === "authenticated" ? (
             <>
               <Link href="/new">
-                <Button variant="outline" color="violet" >Create Post</Button>
+                <Button variant="outline" color="violet" leftSection={<IconPlus />}>Create Post</Button>
               </Link>
-              <ActionIcon variant="outline" color="gray" radius="sm" size="lg">
+              <ActionIcon variant="outline" color="gray" radius="sm" size={36}>
                 <IconBell />
               </ActionIcon>
-              <Button onClick={() => signOut()}>Sign Out</Button>
+              <AvatarDropdown profileURL={session.data.user.image ?? ""}/>
             </>
             ) : (
             <>
