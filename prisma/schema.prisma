@@ -23,7 +23,7 @@ model Post {
     createdById String
 
     title String
-    slug String
+    slug String @unique
     tags String
     body String
 
