@@ -1,9 +1,10 @@
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
-import type { AppProps } from 'next/app';
-import { createTheme, MantineProvider, ColorSchemeScript } from '@mantine/core';
+import { MantineProvider, ColorSchemeScript } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
@@ -39,6 +40,7 @@ export default async function RootLayout({
           <MantineProvider>
             <SessionProvider session={session}>
               <Shell>
+                <Notifications />
                 <ColorSchemeScript />
                 {children}
               </Shell>
