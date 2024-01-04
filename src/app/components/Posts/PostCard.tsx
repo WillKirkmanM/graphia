@@ -1,6 +1,5 @@
 import { Card, Title, Text, Flex, Divider, Container, Anchor } from "@mantine/core"
 import Editor from "../Editor/Editor"
-import ReactHtmlParser from "react-html-parser"
 import type { Post } from "@prisma/client"
 
 interface PostCardProps {
