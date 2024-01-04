@@ -1,5 +1,6 @@
 import { Card, Title, Text, Flex, Divider, Container, Anchor } from "@mantine/core"
-import Markdown from "markdown-to-jsx"
+import Editor from "../Editor/Editor"
+import ReactHtmlParser from "react-html-parser"
 import type { Post } from "@prisma/client"
 
 interface PostCardProps {
@@ -23,9 +24,7 @@ export default function PostCard({ post }: PostCardProps) {
 
     <Divider my="md" />
 
-    <div className="markdown-content">
-      <Markdown>{post.body}</Markdown>
-    </div>
-  </Card>
+    <div dangerouslySetInnerHTML={{ __html: post.body }} />
+    </Card>
   )
 }
