@@ -23,7 +23,9 @@ export default function PostCard({ post }: PostCardProps) {
 
     <Divider my="md" />
 
-    <Markdown>{post.body}</Markdown>
+    <div className="markdown-content">
+      <Markdown>{post.body}</Markdown>
+    </div>
   </Card>
   )
 }
