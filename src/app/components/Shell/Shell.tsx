@@ -1,6 +1,7 @@
 "use client"
 
 import { ActionIcon, AppShell, Burger, Button, Group, TextInput, Text, Space } from '@mantine/core';
+import { useHeadroom } from "@mantine/hooks"
 import AvatarDropdown from '../User/AvatarDropdown';
 import Link from 'next/link';
 
@@ -15,6 +16,7 @@ interface ShellProps {
 export default function Shell({ children }: ShellProps) {
   const [opened, { toggle }] = useDisclosure();
   const session = useSession();
+  const pinned = useHeadroom({ fixedAt: 120 })
 
   return (
     <AppShell
@@ -22,7 +24,7 @@ export default function Shell({ children }: ShellProps) {
       navbar={{
         width: 300,
         breakpoint: 'sm',
-        collapsed: { mobile: !opened },
+        collapsed: { desktop: !pinned, mobile: !opened },
       }}
       padding="md"
     >
