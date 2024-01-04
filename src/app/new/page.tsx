@@ -1,6 +1,7 @@
 "use client";
 
-import { Textarea, Fieldset, Button, ActionIcon, Group, MultiSelect, Combobox, useCombobox,  } from "@mantine/core";
+import { Textarea, Fieldset, Button, ActionIcon, Group } from "@mantine/core";
+import Editor from "../components/Editor/Editor";
 import { IconSettings } from "@tabler/icons-react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
@@ -16,8 +17,6 @@ export default function New() {
   const [preview, setPreview] = useState(false)
 
   const createPost = api.post.create.useMutation()
-  const tagList = api.tag.getAll.useQuery().data
-
   return (
     <>
       <Fieldset legend="Your Post">
@@ -27,10 +26,12 @@ export default function New() {
             <Textarea placeholder="The desired url" value={slug} autosize minRows={1} mb={10} onChange={(e) => setSlug(e.currentTarget.value)}/>
             {/* <MultiSelect placeholder="Enter up to 5 tags..." data={tagList ? [...tagList].sort((a, b) => b.popularity - a.popularity).map(tag => tag.name) : []} onChange={(e) => setTags(e.join(","))} value={tags ? tags.split(",") : []} maxValues={5} searchable /> */}
             <TagSelection />
-            <Textarea placeholder="Write your post content here..." value={body} autosize minRows={4} mt={10} onChange={(e) => setBody(e.currentTarget.value)}/>
+            {/* <Textarea placeholder="Write your post content here..." value={body} autosize minRows={4} mt={10} onChange={(e) => setBody(e.currentTarget.value)}/> */}
+            <Editor body={body} setBody={setBody}/>
           </>
         ) : (
           <>
+
             <PostCard post={{ title, slug, tags, body, createdAt: new Date(), updatedAt: new Date(), createdById: "0", id: 0}}/>
           </>
         )}
