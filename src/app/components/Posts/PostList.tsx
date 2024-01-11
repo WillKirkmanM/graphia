@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
-import { Skeleton } from "@mantine/core";
+import { Skeleton, Stack } from "@mantine/core";
 import { api } from "~/trpc/react";
 
 export default function PostList() {
@@ -52,9 +52,11 @@ export default function PostList() {
         </>
       ) : (
         <>
-          {postListQuery.data?.map((post) => (
-            <PostCard post={post} />
-          ))}
+          <Stack>
+            {postListQuery.data?.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </Stack>
         </>
       )}
     </>
