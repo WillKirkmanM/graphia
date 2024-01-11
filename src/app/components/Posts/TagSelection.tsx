@@ -2,60 +2,63 @@ import { useState, useEffect } from 'react';
 import { CheckIcon, Combobox, Group, Pill, PillsInput, useCombobox } from '@mantine/core';
 import { api } from '~/trpc/react';
 
-export default function TagSelection() {
+interface TagSelectionProps {
+  tags: string[]
+  setTags: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+export default function TagSelection({ tags, setTags }: TagSelectionProps) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
     onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
   });
 
   const [search, setSearch] = useState('');
-  const [data, setData] = useState([""]);
-  const [value, setValue] = useState([""]);
+  const [tagList, setTagList] = useState([""]);
 
-  const tagList = api.tag.getAll.useQuery().data
+  const tagListQuery = api.tag.getAll.useQuery().data ?? []
 
   useEffect(() => {
     if (tagList) {
-      const sortedTagListNames = tagList.sort((a, b) => b.popularity - a.popularity).map(tag => "#" + tag.name)
-      setData(sortedTagListNames);
+      const sortedTagListNames = tagListQuery.sort((a, b) => b.popularity - a.popularity).map(tag => "#" + tag.name)
+      setTagList(sortedTagListNames);
     }
   }, [tagList]);
   
 
-  const exactOptionMatch = data.some((item) => item === search);
+  const exactOptionMatch = tagList.some((item) => item === search);
 
   const handleValueSelect = (val: string) => {
-    if (value.length >= 5) { setSearch(""); return };
+    if (tags.length >= 5) { setSearch(""); return };
 
     const tag = val.startsWith("#") ? val : "#" + val;
     setSearch('');
 
     if (val === '$create') {
       const newTag = search.startsWith("#") ? search : "#" + search;
-      setData((current) => [...current, newTag]);
-      setValue((current) => [...current, newTag]);
+      setTagList((current) => [...current, newTag]);
+      setTags((current) => [...current, newTag]);
     } else {
-      setValue((current) =>
-        current.includes(tag) ? current.filter((v) => v !== tag) : [...current, tag]
+      setTags((current) => current.includes(tag) ? current.filter((v) => v !== tag) : [...current, tag]
       );
     }
   };
 
   const handleValueRemove = (val: string | undefined) =>
-    setValue((current) => current.filter((v) => v !== val));
+    setTags((current) => current.filter((v) => v !== val));
 
-  const values = value.map((item) => (
+  const values = tags.map((item) => (
     <Pill key={item} withRemoveButton onRemove={() => handleValueRemove(item)}>
       {item}
     </Pill>
   ));
 
-  const options = data
+  const options = tagList 
     .filter((item) => item.toLowerCase().includes(search.trim().toLowerCase()))
     .map((item) => (
-      <Combobox.Option value={item} key={item} active={value.includes(item)}>
+      <Combobox.Option value={item} key={item} active={tags.includes(item)}>
         <Group gap="sm">
-          {value.includes(item) ? <CheckIcon size={12} /> : null}
+          {tags.includes(item) ? <CheckIcon size={12} /> : null}
           <span>{item}</span>
         </Group>
       </Combobox.Option>
@@ -81,9 +84,9 @@ export default function TagSelection() {
                 onKeyDown={(event) => {
                   if (event.key === 'Backspace' && search.length === 0) {
                     event.preventDefault();
-                    const lastElement = value[value.length - 1];
+                    const lastElement = tags.at(-1);
                     if (lastElement !== undefined) {
-                    handleValueRemove(value[value.length - 1]);
+                    handleValueRemove(tags.at(-1));
                     }
                   }
                 }}
