@@ -1,6 +1,6 @@
 "use client"
 
-import { Title, Text, Image } from "@mantine/core";
+import { Title, Text, Avatar, Stack, Group } from "@mantine/core";
 import PostCard from "~/app/components/Posts/PostCard";
 import { api } from "~/trpc/react";
 
@@ -18,14 +18,19 @@ export default function UserPage({ params }: UserPageProps) {
     <>
       {user ? (
         <>
-          <Image src={user.image} alt="User Image" width={100} height={100} radius="xl" />
-          <Title>{user.name}</Title>
-          <Text>@{user.username}</Text>
+          <Group>
+            <Avatar src={user.image} alt="User Image" size="xl" radius={100} />
+            <Stack gap="xs">
+              <Title>{user.name}</Title>
+              <Text>@{user.username}</Text>
+            </Stack>
+          </Group>
 
-          {userPosts?.map((post) => (
+          <Stack>
+            {userPosts?.map((post) => (
               <PostCard post={post}/>
-            )
-          )}
+            ) )}
+          </Stack>
         </>
       ) : (
         <Text>Not found</Text>
