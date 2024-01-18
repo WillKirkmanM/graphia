@@ -15,6 +15,7 @@ interface ShellProps {
 
 export default function Shell({ children }: ShellProps) {
   const [opened, { toggle }] = useDisclosure();
+  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
   const session = useSession();
   const pinned = useHeadroom({ fixedAt: 120 })
 
@@ -24,7 +25,7 @@ export default function Shell({ children }: ShellProps) {
       navbar={{
         width: 300,
         breakpoint: 'sm',
-        collapsed: { desktop: !pinned, mobile: !opened },
+        collapsed: { desktop: !desktopOpened, mobile: !opened },
       }}
       padding="md"
     >
@@ -36,6 +37,7 @@ export default function Shell({ children }: ShellProps) {
           size="sm"
         />
         <Group p="sm" align="center">
+          <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
           <Space w={200}/>
           <Link href="/">
             <Text>Graphia</Text>
