@@ -1,7 +1,7 @@
 "use client"
 
 import { api } from "~/trpc/react"
-import { Text, Group, Stack, Avatar, Title, Flex, Container, Divider } from "@mantine/core"
+import { Text, Group, Stack, Avatar, Title, Flex, Container, Divider, Center } from "@mantine/core"
 import { format, formatDistanceToNow } from "date-fns"
 import { readingTime } from "reading-time-estimator"
 
@@ -13,7 +13,7 @@ interface PostProps {
 
 export default function Post({ params }: PostProps) {
   const post = api.post.getPostByURL.useQuery({ slug: params.postURL }).data;
-  const author = api.user.getAuthor.useQuery({ id: post?.createdById }).data
+  const author = api.user.getAuthor.useQuery({ id: post?.createdById ?? "" }).data
 
   return (
     <>
@@ -53,7 +53,9 @@ export default function Post({ params }: PostProps) {
           </Container>
         </>
       ) : (
-        <Text>Post not found</Text>
+        <Center>
+          <Title>Post not found</Title>
+        </Center>
       )}
     </>
   )
