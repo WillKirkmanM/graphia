@@ -36,7 +36,7 @@ export default function New() {
           </>
         ) : (
           <>
-            <PreviewPostCard post={{ title, slug, tags: tags.join(", "), body, createdAt: new Date(), updatedAt: new Date(), createdById: "0", id: 0}} previewImage={image}/>
+            <PreviewPostCard post={{ title, slug, image: null, tags: tags.join(", "), body, createdAt: new Date(), updatedAt: new Date(), createdById: "0", id: 0}} previewImage={image}/>
           </>
         )}
 
