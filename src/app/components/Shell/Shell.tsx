@@ -17,7 +17,6 @@ export default function Shell({ children }: ShellProps) {
   const [opened, { toggle }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
   const session = useSession();
-  const pinned = useHeadroom({ fixedAt: 120 })
 
   return (
     <AppShell
