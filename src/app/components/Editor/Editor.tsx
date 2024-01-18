@@ -38,7 +38,7 @@ export default function Editor({ body, setBody, showToolbar }: EditorProps) {
       CodeBlockLowlight.configure({ lowlight })
     ],
     content: body,
-    onUpdate: ({ editor }) => setBody(editor.getHTML())
+    onUpdate: ({ editor }) => setBody(editor.getHTML()) 
   });
 
   return (
