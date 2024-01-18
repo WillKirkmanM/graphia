@@ -1,4 +1,4 @@
-import { Card, Title, Text, Flex, Divider, Container, Group, Stack, Image, Avatar } from "@mantine/core"
+import { Card, Title, Text, Flex, Container, Group, Stack, Avatar } from "@mantine/core"
 import { format, formatDistanceToNow } from "date-fns"
 import Link from "next/link"
 import type { Post } from "@prisma/client"
