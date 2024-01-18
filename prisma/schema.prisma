@@ -26,6 +26,7 @@ model Post {
     slug String @unique
     tags String
     body String
+    image String?
 
     @@index([title])
 }
