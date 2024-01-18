@@ -1,11 +1,10 @@
 "use client"
 
-import { ActionIcon, AppShell, Burger, Button, Group, TextInput, Text, Space } from '@mantine/core';
-import { useHeadroom } from "@mantine/hooks"
+import { ActionIcon, AppShell, Burger, Button, Group, TextInput, Text, Space, NavLink } from '@mantine/core';
 import AvatarDropdown from '../User/AvatarDropdown';
 import Link from 'next/link';
 
-import { IconBell, IconPlus, IconSearch } from "@tabler/icons-react"
+import { IconBell, IconHome2, IconPlus, IconSearch, IconWriting } from "@tabler/icons-react"
 import { useDisclosure } from '@mantine/hooks';
 import { signIn, useSession } from 'next-auth/react';
 
@@ -65,7 +64,18 @@ export default function Shell({ children }: ShellProps) {
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+      <AppShell.Navbar p="md">
+        <NavLink
+          href="/"
+          label="Home"
+          leftSection={<IconHome2 size="1rem" stroke={1.5} />}
+        />
+        <NavLink
+          href="/new"
+          label="Write Post"
+          leftSection={<IconWriting size="1rem" stroke={1.5} />}
+        />
+      </AppShell.Navbar>
 
       <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
