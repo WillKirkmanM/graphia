@@ -14,7 +14,7 @@ export default function AvatarChangeZone({ src }: AvatarChangeZoneProps) {
 
   return (
     <Dropzone
-      onDrop={(files) => setAvatarSrc(URL.createObjectURL(files[0]))}
+      onDrop={(files) => setAvatarSrc(URL.createObjectURL(files[0] ?? new Blob()))}
       onReject={(files) => console.log('rejected files', files)}
       maxSize={5 * 1024 ** 2}
       accept={IMAGE_MIME_TYPE}
