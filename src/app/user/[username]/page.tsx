@@ -18,8 +18,8 @@ export default function UserPage({ params }: UserPageProps) {
     <>
       {user ? (
         <>
-          <Group>
-            <Avatar src={user.image} alt="User Image" size="xl" radius={100} />
+          <Group mb="xl">
+            <Avatar src={user.image} alt="User Image" size="xl" radius={100}/>
             <Stack gap="xs">
               <Title>{user.name}</Title>
               <Text>@{user.username}</Text>
