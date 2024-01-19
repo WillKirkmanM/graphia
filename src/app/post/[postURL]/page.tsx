@@ -1,7 +1,7 @@
 "use client"
 
 import { api } from "~/trpc/react"
-import { Text, Group, Stack, Avatar, Title, Flex, Container, Divider, Center } from "@mantine/core"
+import { Text, Group, Stack, Avatar, Title, Flex, TypographyStylesProvider, Container, Divider, Center } from "@mantine/core"
 import { format, formatDistanceToNow } from "date-fns"
 import { readingTime } from "reading-time-estimator"
 
@@ -49,7 +49,9 @@ export default function Post({ params }: PostProps) {
 
           <Divider my="md" />
 
-          <div dangerouslySetInnerHTML={{ __html: post.body }} />
+          <TypographyStylesProvider>
+            <div dangerouslySetInnerHTML={{ __html: post.body }} />
+          </TypographyStylesProvider>
           </Container>
         </>
       ) : (
