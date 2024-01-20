@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   updateUsername: protectedProcedure
@@ -11,14 +11,14 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  findByUsername: protectedProcedure
+  findByUsername: publicProcedure
     .input(z.object({ username: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       return ctx.db.user.findUnique({
         where: { username: input.username }
       });
     }),
-  getAuthor: protectedProcedure
+  getAuthor: publicProcedure 
     .input(z.object({ id: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       return ctx.db.user.findUnique({
