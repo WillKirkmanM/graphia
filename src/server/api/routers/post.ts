@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
@@ -27,21 +28,35 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-    getAll: protectedProcedure.query(async ({ ctx }) => {
+    getAll: publicProcedure.query(async ({ ctx }) => {
       return ctx.db.post.findMany();
     }),
 
-    getPostByURL: protectedProcedure.input(z.object({ slug: z.string().min(1) })).query(async ({ ctx, input  }) => {
+    getPostByURL: publicProcedure.input(z.object({ slug: z.string().min(1) })).query(async ({ ctx, input  }) => {
       return ctx.db.post.findUnique({
         where: { slug: input.slug }
       });
     }),
 
-    getPostByUser: protectedProcedure
+    getPostByUser: publicProcedure 
       .input(z.object({ username: z.string().min(1) }))
       .query(async ({ ctx, input  }) => {
       return ctx.db.post.findMany({
         where: { createdBy: { username: input.username } }
       });
     }),
+
+    searchPosts: publicProcedure
+      .input(z.object({ search: z.string().min(1) }))
+      .query(async ({ ctx, input }) => {
+        return ctx.db.post.findMany({
+          where: { 
+            OR: [
+              { title: { contains: input.search } },
+              { body: { contains: input.search } },
+              { tags: { contains: input.search } },
+            ],
+          },
+        });
+      }),
 });
