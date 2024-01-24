@@ -25,7 +25,7 @@ model Post {
     title String
     slug String @unique
     tags String
-    body String
+    body String @db.Text
     image String?
 
     @@index([title])
@@ -71,7 +71,7 @@ model User {
     name          String?
     email         String?   @unique
     emailVerified DateTime?
-    image         String?
+    image         String?  @db.Text
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
