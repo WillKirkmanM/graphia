@@ -32,6 +32,10 @@ export const postRouter = createTRPCRouter({
       return ctx.db.post.findMany();
     }),
 
+    getAllSlugs: publicProcedure.query(async ({ ctx }) => {
+      return ctx.db.post.findMany({ select: { slug: true } });
+    }),
+
     getPostByURL: publicProcedure.input(z.object({ slug: z.string().min(1) })).query(async ({ ctx, input  }) => {
       return ctx.db.post.findUnique({
         where: { slug: input.slug }
